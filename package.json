@@ -1,0 +1,25 @@
+{
+  "name": "kanban-api",
+  "version": "1.0.0",
+  "description": "## What is the goal of the Kanban-API project :thinking:",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon",
+    "tables:import": "psql -U kanban -d kanban -f docs/data/tables.sql",
+    "data:seed": "psql -U kanban -d kanban -f docs/data/data.sql ",
+    "reset:db": "npm run tables:import && npm run data:seed"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "pg": "^8.11.3",
+    "sequelize": "^6.33.0"
+  }
+}
