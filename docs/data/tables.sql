@@ -23,11 +23,11 @@ CREATE TABLE IF NOT EXISTS "list" (
 CREATE TABLE IF NOT EXISTS "card" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "title" TEXT NOT NULL DEFAULT '',
-  "position" INTEGER NOT NULL DEFAULT '0',
-  "color" TEXT NOT NULL DEFAULT '#FFF',
   "content" TEXT NOT NULL DEFAULT '',
+  "color" TEXT NOT NULL DEFAULT '#FFF',
   "list_id" INTEGER NOT NULL REFERENCES "list" ("id") ON DELETE CASCADE,
   -- ON DELETE CASCADE permet que la carte soit supprimer automatiquement si sa liste est supprimer
+  "position" INTEGER NOT NULL DEFAULT '0',
   "created_at" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "updated_at" timestamptz
 );
