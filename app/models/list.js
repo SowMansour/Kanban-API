@@ -1,4 +1,4 @@
-const { Model, DataTypes, literal } = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 const getConnexion = require('./getConnexion');
 
 class List extends Model {}
