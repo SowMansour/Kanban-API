@@ -111,6 +111,23 @@ const mainController = {
 
     },
 
+    createOrModify: async (req, res) => {
+        try {
+          let list;
+          if (req.params.id) {
+            list = await List.findByPk(req.params.id);
+          }
+          if (list) {
+            await mainController.modifyList(req, res);
+          } else {
+            await mainController.createList(req, res);
+          }
+        } catch (error) {
+          console.trace(error);
+          res.status(500).json(error.toString());
+        }
+    },
+
     removeList: async (req, res) => {
         //retrieve Id
         const listId = Number(req.params.id);

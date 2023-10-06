@@ -1,4 +1,4 @@
-const { Tag } = require('../models/index');
+const { Tag, Card } = require('../models/index');
 
 
 const tagController = {
@@ -82,6 +82,23 @@ const tagController = {
         }
     },
 
+    createOrModify: async (req, res) => {
+        try {
+          let tag;
+          if (req.params.id) {
+            tag = await Tag.findByPk(req.params.id);
+          }
+          if (tag) {
+            await tagController.modifyTag(req, res);
+          } else {
+            await tagController.createTag(req, res);
+          }
+        } catch (error) {
+          console.trace(error);
+          res.status(500).send(error);
+        }
+      },
+
     removeTag: async (req, res) => {
         const tagId = Number(req.params.id);
 
@@ -97,7 +114,66 @@ const tagController = {
             console.trace(e)
             res.status(500).json('Server Error');
         }
-    }
+    },
+
+    associateTagToCard: async (req, res) => {
+        try {
+          console.log(req.body);
+          const cardId = req.params.id;
+          const tagId = req.body.id;
+            console.log(tagId);
+          let card = await Card.findByPk(cardId, {
+            include: ['tags']
+          });
+          if (!card) {
+            return res.status(404).json('Can not find card with id ' + cardId);
+          }
+    
+          let tag = await Tag.findByPk(tagId);
+          if (!tag) {
+            return res.status(404).json('Can not find tag with id ' + tagId);
+          }
+    
+          // Sequelize nous crée une methode dans une association ManyToMany
+          await card.addTag(tag);
+          // malheureusement, les associations de l'instance ne sont pas mises à jour
+          // on doit donc refaire un select
+          card = await Card.findByPk(cardId, {
+            include: ['tags']
+          });
+          res.json(card);
+    
+        } catch (error) {
+          console.log(error);
+          res.status(500).send(error);
+        }
+      },
+
+      removeTagFromCard: async (req, res) => {
+        try {
+          const { cardId, tagId } = req.params;
+    
+          let card = await Card.findByPk(cardId);
+          if (!card) {
+            return res.status(404).json('Can not find card with id ' + cardId);
+          }
+    
+          let tag = await Tag.findByPk(tagId);
+          if (!tag) {
+            return res.status(404).json('Can not find tag with id ' + tagId);
+          }
+    
+          await card.removeTag(tag);
+          card = await Card.findByPk(cardId, {
+            include: ['tags']
+          });
+          res.json(card);
+    
+        } catch (error) {
+          console.trace(error);
+          res.status(500).json(error);
+        }
+      }
 }
 
 

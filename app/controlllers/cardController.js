@@ -119,6 +119,23 @@ const cardController = {
          }
     },
 
+    createOrModify: async (req, res) => {
+        try {
+          let card;
+          if (req.params.id) {
+            card = await Card.findByPk(req.params.id);
+          }
+          if (card) {
+            await cardController.modifyCard(req, res);
+          } else {
+            await cardController.createCard(req, res);
+          }
+        } catch (error) {
+          console.trace(error);
+          res.status(500).send(error);
+        }
+      },
+
     removeCard: async(req, res) => {
         const cardId = Number(req.params.id);
 

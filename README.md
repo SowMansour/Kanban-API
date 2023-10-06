@@ -15,6 +15,7 @@ I am using this requirement as the basis for creating the Entity-Relationship Di
  - Dotenv
  - PostgeSQL
  - Sequelize
+ - cors
 
 ### Database set up step by step :
 
