@@ -59,28 +59,32 @@ const cardController = {
 
     createCard: async (req, res) => {
         try {
-            const { title, position, color, content, list_id } = req.body;
-            if(!title){
-                return res.status(400).json('Wrong column title name')
+          const { content, color, list_id } = req.body;
+    
+          let bodyErrors = [];
+          if (!content) {
+            bodyErrors.push(`content can not be empty`);
+          }
+          if (!list_id) {
+            bodyErrors.push(`list_id can not be empty`);
+          }
+    
+          if (bodyErrors.length) {
+            res.status(400).json(bodyErrors);
+          } else {
+            let newCard = Card.build({ content, list_id });
+            if (color) {
+              newCard.color = color;
             }
-
-        const newCard =  Card.build({
-            title, 
-            position, 
-            color, 
-            content, 
-            list_id 
-        })
-
-        await newCard.save();
-        //render to the front
-        res.status(201).json(newCard);
-
-        } catch (e) {
-            console.trace(e)
-            res.status(500).json('Server Error');
+            await newCard.save();
+            res.json(newCard);
+          }
+    
+        } catch (error) {
+          console.trace(error);
+          res.status(500).json(error);
         }
-    },
+      },
 
     modifyCard: async (req, res) => {
          //retrieve Id

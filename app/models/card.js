@@ -5,22 +5,20 @@ class Card extends Model {}
 
 Card.init(
     {
-        title: {
-            type: DataTypes.STRING,
+        content: {
+            type: DataTypes.TEXT,
+        },
+
+        color: {
+            type: DataTypes.TEXT,
+        },
+
+        list_id: {
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
         position: {
             type: DataTypes.INTEGER,
-        },
-        color: {
-            type: DataTypes.TEXT,
-        },
-        content: {
-            type: DataTypes.TEXT,
-        },
-        list_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
         },
     },
     {

@@ -10,6 +10,12 @@ app.use(cors());
 // nous donne la variable request.body
 app.use(express.urlencoded({ extended: true }));
 
+//Multer permet de gerer le format multipart/form-data
+const multer = require('multer');
+const bodyParser = multer();
+// on utlise .none() pour dire qu'on attends pas de fichier, uniquement des inputs "classiques" !
+app.use(bodyParser.none());
+
 app.use(router);
 
 const PORT = process.env.PORT;
