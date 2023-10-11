@@ -35,7 +35,17 @@ const listModule = {
         const template = document.getElementById('template-list');
         // On clone ce template pour pouvoir le modifier et l'afficher sur le DOM
         const clone = document.importNode(template.content, true);
-        clone.querySelector('h2').textContent = dataList.name;
+
+        const h2 = clone.querySelector('h2');
+        h2.textContent = dataList.name;
+
+        //Modification titre des listes
+        h2.addEventListener('dblclick', listModule.showEditList);
+
+        //valider le changement de nom des listes
+        const form = h2.nextElementSibling;
+        form.addEventListener('submit', listModule.handleEditListForm)        
+        
         clone.querySelector('.panel').dataset.listId = dataList.id;
         clone.querySelector("form input[name='list-id']").value = dataList.id;
          // Ajouter la liste sur le DOM
@@ -48,4 +58,32 @@ const listModule = {
         }
         app.addListenerToActions();
         },
-    }
+
+        showEditList: (e) => {
+            e.target.classList.add('is-hidden');
+
+            e.target.nextElementSibling.classList.remove('is-hidden');
+        },
+
+        handleEditListForm: async (e) => {
+            e.preventDefault();
+            const h2 = e.target.previousElementSibling;
+            const formData = new FormData(e.target);
+            try {
+                const response = await fetch(`${utilsModule.base_url}/lists/${formData.get('list-id')}`,{
+                    method: 'PATCH',
+                    body: formData
+                })
+                
+                const json = await response.json();
+
+                h2.textContent = json.name;
+                
+            } catch (e) {
+               console.error(e.message); 
+            } finally{
+            e.target.classList.add('is-hidden');
+            h2.classList.remove('is-hidden');
+            }
+        }
+     }

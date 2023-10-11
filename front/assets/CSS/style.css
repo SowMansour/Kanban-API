@@ -6,3 +6,12 @@ body {
   .card-lists {
     overflow-x: auto;
   }
+
+  h2 {
+    cursor: pointer;
+    transition: all 0.4s;
+  }
+
+  h2.has-text-white:hover{
+    color: black !important;
+  }
