@@ -42,9 +42,20 @@ const cardModule = {
         // On clone ce template pour pouvoir le modifier et l'afficher sur le DOM
         const clone = document.importNode(template.content, true);
 
-        clone.querySelector('.card-content').textContent = cardData.content;
+        const cardTitle = clone.querySelector('.card-content');
+        cardTitle.textContent = cardData.content;
 
-        clone.querySelector('.box').dataset.cardId = cardData.id;
+        const editBtns = document.querySelectorAll('.fa-pencil-alt');
+
+        editBtns.forEach(bouton => {
+            bouton.parentElement.parentElement.addEventListener('click', cardModule.showEditCardForm)
+        })
+
+        const box = clone.querySelector('.box');
+        box.dataset.cardId = cardData.id;
+        box.style.backgroundColor = cardData.color;
+
+        box.querySelector('form').addEventListener('submit', cardModule.handleEditCardForm);
 
         // console.log(cardData.list_id);
 
@@ -55,5 +66,43 @@ const cardModule = {
         const cardEmplacement = goodList.querySelector('.panel-block');
         cardEmplacement.appendChild(clone);
     },
+
+    showEditCardForm: (e) => {
+        e.preventDefault();
+        //Selectionne tous le contenus des cartes
+        const card = e.target.closest('.box');
+        card.querySelector('.card-content').classList.add('is-hidden');
+        card.querySelector('form').classList.remove('is-hidden');
+    },
+
+    handleEditCardForm: async (e) => {
+        e.preventDefault();
+        
+        const cardId = e.target.closest('.box').getAttribute('data-card-id');
+
+        const formData = new FormData(e.target);
+        const cardTitle = e.target.previousElementSibling;
+        try {
+            const response = await fetch(`${utilsModule.base_url}/cards/${cardId}`, {
+                method: 'PATCH',
+                body: formData
+            });
+
+            const json = await response.json();
+
+            if(!response.ok) throw json;
+
+            cardTitle.textContent = json.content;
+        } catch (e) {
+            console.error(e.message);
+        } finally {
+            // cache la form et le reset
+            e.target.classList.add('is-hidden');
+            //Permet de vider le form
+            e.target.reset();
+            //Affichage du nouveau titre
+            cardTitle.classList.remove('is-hidden');
+        } 
+    }
 
 }
