@@ -51,7 +51,7 @@ const cardModule = {
             bouton.parentElement.parentElement.addEventListener('click', cardModule.showEditCardForm)
         });
 
-        const deleteBtns = document.querySelectorAll('.fa-trash-alt');
+        const deleteBtns = document.querySelectorAll('.js-delete-card');
 
         deleteBtns.forEach(bouton => {
             bouton.parentElement.parentElement.addEventListener('click', cardModule.deleteCard)
@@ -99,6 +99,9 @@ const cardModule = {
             if(!response.ok) throw json;
 
             cardTitle.textContent = json.content;
+
+            // mettre la couleur à jour
+            cardTitle.closest('.box').style.backgroundColor = json.color;
         } catch (e) {
             console.error(e.message);
         } finally {

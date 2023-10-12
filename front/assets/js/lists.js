@@ -51,6 +51,12 @@ const listModule = {
          // Ajouter la liste sur le DOM
         const listContainer = document.querySelector('.card-lists');
         const firstElement = listContainer.querySelector('.panel');
+
+        //Delete List Boutons
+        const deletebtns = clone.querySelector('.js-delete-list');
+        
+        deletebtns.parentElement.parentElement.addEventListener('click', listModule.deleteList);
+
         if (firstElement) {
             firstElement.before(clone);
         } else {
@@ -84,6 +90,25 @@ const listModule = {
             } finally{
             e.target.classList.add('is-hidden');
             h2.classList.remove('is-hidden');
+            }
+        },
+
+        deleteList: async (e) => {
+            if(!confirm('Etes-vous sur ?')) return;
+
+            const list = e.target.closest('.panel');
+
+            try {
+               const response = await fetch(`${utilsModule.base_url}/lists/${list.dataset.listId}`, {
+                method: "DELETE",
+               });
+                const json = await response.json();
+
+                if(!response.ok) throw json;
+
+                list.remove();
+            } catch (e) {
+                console.error(e.message);
             }
         }
      }
