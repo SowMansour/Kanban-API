@@ -49,7 +49,13 @@ const cardModule = {
 
         editBtns.forEach(bouton => {
             bouton.parentElement.parentElement.addEventListener('click', cardModule.showEditCardForm)
-        })
+        });
+
+        const deleteBtns = document.querySelectorAll('.fa-trash-alt');
+
+        deleteBtns.forEach(bouton => {
+            bouton.parentElement.parentElement.addEventListener('click', cardModule.deleteCard)
+        });
 
         const box = clone.querySelector('.box');
         box.dataset.cardId = cardData.id;
@@ -103,6 +109,25 @@ const cardModule = {
             //Affichage du nouveau titre
             cardTitle.classList.remove('is-hidden');
         } 
+    },
+
+    deleteCard: async (e) => {
+        const card = e.target.closest('.box');
+        const cardId = card.getAttribute('data-card-id');
+
+        try {
+            const response = await fetch(`${utilsModule.base_url}/cards/${cardId}`, {
+                method: 'DELETE',
+            });
+
+            const json = await response.json();
+
+            if(!response.ok) throw json;
+
+            card.remove();
+        } catch (e) {
+            console.error(e.message);
+        }
     }
 
 }
