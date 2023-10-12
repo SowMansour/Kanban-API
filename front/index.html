@@ -69,6 +69,8 @@
           </form>
         </div>
       </div>
+      
+    <!-- List-Modal-->
       <div class="modal" id="addCardModal">
         <div class="modal-background"></div>
         <div class="modal-card">
@@ -107,6 +109,7 @@
             <div class="columns">
               <div class="column">
                 <h2 class="has-text-white">Perso</h2>
+
                 <form action="" method="POST" class="is-hidden">
                   <input type="hidden" name="list-id" value="1" />
                   <div class="field has-addons">
@@ -114,7 +117,7 @@
                       <input
                         type="text"
                         class="input is-small"
-                        name="list-name"
+                        name="name"
                         value=""
                         placeholder="Nom de la liste" />
                     </div>
@@ -128,6 +131,12 @@
                 <a href="#" class="is-pulled-right">
                   <span class="icon is-small has-text-white">
                     <i class="fas fa-plus"></i>
+                  </span>
+                </a>
+              &nbsp;
+                <a href="#">
+                  <span class="icon is-small has-text-danger">
+                    <i class="fas fa-trash-alt js-delete-list"></i>
                   </span>
                 </a>
               </div>
@@ -144,15 +153,47 @@
         <div class="box" data-card-id="M">
           <div class="columns">
             <div class="column card-content">Brancher l'API</div>
+
+            <form action="" method="POST" class="is-hidden">
+              <input type="hidden" name="card-id" value="1" />
+              <div class="field has-addons">
+                <div class="control">
+                  <input
+                    type="text"
+                    class="input is-small"
+                    name="content"
+                    value=""
+                    placeholder="Nom de la carte" />
+                </div>
+                <div class="control">
+                  <button class="button is-small is-success">Valider</button>
+                </div>
+              </div>
+              <div class="field">
+                <div class="control">
+                  <input
+                    type="color"
+                    class="input"
+                    name="color"
+                    value=""
+                    placeholder="Couleur de la carte" />
+                </div>
+                <div class="control">
+                  <button class="button is-small is-success">Valider</button>
+                </div>
+            </div>
+            </form>
+
             <div class="column is-narrow">
               <a href="#">
                 <span class="icon is-small has-text-primary">
                   <i class="fas fa-pencil-alt"></i>
                 </span>
               </a>
+              &nbsp;
               <a href="#">
                 <span class="icon is-small has-text-danger">
-                  <i class="fas fa-trash-alt"></i>
+                  <i class="fas fa-trash-alt js-delete-card"></i>
                 </span>
               </a>
             </div>

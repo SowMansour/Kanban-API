@@ -2,7 +2,7 @@
 
 ## What is the goal of the Kanban-API project :thinking:
 
-The Kanban-API project aims to create a Kanban-style application where users can create cards within lists.
+The Kanban-API project aims to create a Kanban-style application where users can create cards within lists (CRUD)
 
 - Users can create as many lists as they desire and place as many cards inside these lists.
 - Each list has a name.
@@ -16,6 +16,7 @@ I am using this requirement as the basis for creating the Entity-Relationship Di
  - PostgeSQL
  - Sequelize
  - cors
+ - Multer
 
 ### Database set up step by step :
 
