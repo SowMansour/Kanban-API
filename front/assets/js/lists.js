@@ -57,6 +57,15 @@ const listModule = {
         
         deletebtns.parentElement.parentElement.addEventListener('click', listModule.deleteList);
 
+        //Drag n Drop: Récupération du conteneur des carteq
+        const cardsContainer = clone.querySelector('.panel-block');
+
+        Sortable.create(cardsContainer, {
+          group: 'list',
+          draggable: '.box',
+          onEnd: cardModule.handleDragCards,
+        });
+
         listContainer.appendChild(clone);
     
         app.addListenerToActions();

@@ -45,7 +45,7 @@ const app = {
           cardModule.makeCardInDOM(card);
         }
       };
-
+        
     // Drag n Drop avec ma librairie Sortable
     const listContainer = document.querySelector('.card-lists');
 

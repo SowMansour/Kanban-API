@@ -130,6 +130,59 @@ const cardModule = {
         } catch (e) {
             console.error(e.message);
         }
-    }
+    },
 
-}
+    handleDragCards: (e) => {
+    // * on doit mettre à jour toutes les cartes
+    // on récupère les cartes de la liste d'origine
+    let cards = e.from.querySelectorAll('.box');
+
+    // on modifie la position des cartes sur l'API
+    cardModule.updateAllCards(cards);
+
+    // Si la bnouvelle liste est la liste de départ, on arrête
+    if (e.from === e.to) return;
+
+    // on réassigne la variable car on obeit au peuple
+    cards = e.to.querySelectorAll('.box');
+
+    // On récupère l'id de la nouvelle liste de déstination de la carte
+    const listId = e.to.closest('.panel').dataset.listId;
+
+    // on met à jour la carte avec cette information
+    cardModule.updateAllCards(cards, listId);
+    },
+
+    updateAllCards: function (cards, listId = null) {
+        // on met à jour chaque carte
+        cards.forEach(async (card, index) => {
+          // On init un formDtat vide
+          const formData = new FormData();
+    
+          // on ajoute la position de la carte manuellement
+          formData.set('position', index);
+    
+          // si on souhaite changer la carte de liste et qu'on a l'information listId
+          if (listId) {
+            // on ajoute list_id au formData (req.body)
+            formData.set('list_id', listId);
+          }
+    
+          try {
+            // * on met chaque carte à jour dans la BDD
+            const response = await fetch(
+              `${utilsModule.base_url}/cards/${card.dataset.cardId}`,
+              {
+                method: 'PATCH',
+                body: formData,
+              }
+            );
+            const json = await response.json();
+            if (!response.ok) throw json;
+          } catch (error) {
+            console.error(error.message);
+          }
+        });
+      },
+
+};
