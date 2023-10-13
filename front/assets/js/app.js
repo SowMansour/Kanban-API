@@ -46,6 +46,15 @@ const app = {
         }
       };
 
+    // Drag n Drop avec ma librairie Sortable
+    const listContainer = document.querySelector('.card-lists');
+
+    Sortable.create(listContainer, {
+      draggable: '.panel',
+      onEnd: listModule.handleDragList,
+      animation: 100,
+    });
+    
     } catch (error) {
       console.error(error.message);
     }
