@@ -63,13 +63,19 @@ const cardModule = {
         box.querySelector('form').addEventListener('submit', cardModule.handleEditCardForm);
 
         // console.log(cardData.list_id);
-
+        clone
+        .querySelector('.associate-tag-icon')
+        .addEventListener('click', tagModule.showAssociateTagModal);
+        
         const goodList = document.querySelector(
             `[data-list-id="${cardData.list_id}"]`
         );
 
         const cardEmplacement = goodList.querySelector('.panel-block');
         cardEmplacement.appendChild(clone);
+
+        // Ajout des tags sur la carte
+        // cardData.tags.forEach((tag) => tagModule.makeTagInDom(tag));
     },
 
     showEditCardForm: (e) => {
