@@ -28,6 +28,15 @@ const app = {
     // FORM ADD CARD
     const cardForm = document.querySelector('#addCardModal form');
     cardForm.addEventListener('submit', cardModule.handleAddCardForm);
+
+     //Tags 
+    // const tagBtns = document.querySelectorAll('.associate-tag-icon');
+    // tagBtns.forEach((btn) =>
+    //   btn.addEventListener('click', tagModule.showAssociateTagModal)
+    // );
+    // On ajoute le sublit au form
+    const tagForm = document.querySelector('#addTagToCardModal form');
+    tagForm.addEventListener('submit', tagModule.associateTagToCard);
   },
   
   getListsFromAPI: async function () {
@@ -43,8 +52,21 @@ const app = {
 
         for (const card of list.cards) {
           cardModule.makeCardInDOM(card);
+          //Ajout des tags sur la carte
+          for (const tag of card.tags) {
+            tagModule.makeTagInDom(tag);
+          }
         }
       };
+        
+    // Drag n Drop avec ma librairie Sortable
+    const listContainer = document.querySelector('.card-lists');
+
+    Sortable.create(listContainer, {
+      draggable: '.panel',
+      onEnd: listModule.handleDragList,
+      animation: 100,
+    });
 
     } catch (error) {
       console.error(error.message);

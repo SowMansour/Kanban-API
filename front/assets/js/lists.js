@@ -57,11 +57,17 @@ const listModule = {
         
         deletebtns.parentElement.parentElement.addEventListener('click', listModule.deleteList);
 
-        if (firstElement) {
-            firstElement.before(clone);
-        } else {
-            listContainer.appendChild(clone);
-        }
+        //Drag n Drop: Récupération du conteneur des carteq
+        const cardsContainer = clone.querySelector('.panel-block');
+
+        Sortable.create(cardsContainer, {
+          group: 'list',
+          draggable: '.box',
+          onEnd: cardModule.handleDragCards,
+        });
+
+        listContainer.appendChild(clone);
+    
         app.addListenerToActions();
         },
 
@@ -111,4 +117,29 @@ const listModule = {
                 console.error(e.message);
             }
         },
+
+        handleDragList: (e) => {
+            // Mise à jour des positions dans la BDD
+            const lists = document.querySelectorAll('.panel');
+
+            lists.forEach(async (elem, index) => {
+                const formData = new FormData();
+                //FormData permet d'envoyer des donnés correctement que l'Api pourra
+                //comprendre et recupérer dans req.body
+                formData.set('position', index);
+
+                try {
+                    const response = await fetch(`${utilsModule.base_url}/lists/${elem.dataset.listId}`,{
+                        method: 'PATCH',
+                        body: formData
+                    });
+
+                    const json = await response.json();
+                    if(!response.ok) throw json;
+
+                } catch (e) {
+                    console.error(e.message);
+                }
+            })
+            }
      }
