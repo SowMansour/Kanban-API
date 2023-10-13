@@ -110,5 +110,5 @@ const listModule = {
             } catch (e) {
                 console.error(e.message);
             }
-        }
+        },
      }

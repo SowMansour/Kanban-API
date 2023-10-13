@@ -44,11 +44,13 @@ const app = {
         for (const card of list.cards) {
           cardModule.makeCardInDOM(card);
         }
-      }
+      };
+
     } catch (error) {
       console.error(error.message);
     }
   },
+
 };
 
 // on accroche un écouteur d'évènement sur le document : quand le chargement est terminé, on lance app.init

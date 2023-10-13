@@ -44,6 +44,9 @@ const cardModule = {
 
         const cardTitle = clone.querySelector('.card-content');
         cardTitle.textContent = cardData.content;
+        const box = clone.querySelector('.box');
+        box.dataset.cardId = cardData.id;
+        box.style.backgroundColor = cardData.color;
 
         const editBtns = document.querySelectorAll('.fa-pencil-alt');
 
@@ -56,10 +59,6 @@ const cardModule = {
         deleteBtns.forEach(bouton => {
             bouton.parentElement.parentElement.addEventListener('click', cardModule.deleteCard)
         });
-
-        const box = clone.querySelector('.box');
-        box.dataset.cardId = cardData.id;
-        box.style.backgroundColor = cardData.color;
 
         box.querySelector('form').addEventListener('submit', cardModule.handleEditCardForm);
 
